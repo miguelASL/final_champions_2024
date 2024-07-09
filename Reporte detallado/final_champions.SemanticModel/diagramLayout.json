@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 951.32697579193393,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 294,
+            "y": 1520.0075258805432
+          },
+          "nodeIndex": "DefensaRM",
+          "nodeLineageTag": "73024c76-51bf-4501-9475-bcc3c4982372",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 1520.0075258805432
+          },
+          "nodeIndex": "DelanteraRM",
+          "nodeLineageTag": "b0b1d334-1f07-45da-a66e-4b46cfecbe1a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 1530.0075258805432
+          },
+          "nodeIndex": "MediocentroRM",
+          "nodeLineageTag": "233bc2b6-6432-4067-9b17-c7972e69e17e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 1520.0075258805432
+          },
+          "nodeIndex": "DefensaBD",
+          "nodeLineageTag": "fdf8f9c1-ca0d-4fec-aea2-658ecd937a27",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 1520.0075258805432
+          },
+          "nodeIndex": "DelanteraBD",
+          "nodeLineageTag": "15c6d577-87dc-4411-a93d-b42ffe7668ca",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1410,
+            "y": 1530.0075258805432
+          },
+          "nodeIndex": "MediocentroBD",
+          "nodeLineageTag": "3ce5cfc2-c110-4a97-95e3-a2934bfa27d5",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1684,
+            "y": 885.59221958381693
+          },
+          "nodeIndex": "RMDefensa1",
+          "nodeLineageTag": "fec995c5-befd-4540-ab2c-50a2082c41c9",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1968,
+            "y": 885.59221958381693
+          },
+          "nodeIndex": "RMDelantera",
+          "nodeLineageTag": "f891079d-d039-4554-9acd-3c6ffbdfa7f6",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2252,
+            "y": 885.59221958381693
+          },
+          "nodeIndex": "RMMediocentro2",
+          "nodeLineageTag": "6ed547d5-28ba-477f-a9d2-bca54a1815a3",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2536,
+            "y": 885.59221958381693
+          },
+          "nodeIndex": "RMPorteria",
+          "nodeLineageTag": "6d3b1e60-7604-419c-8832-7594c16135c0",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2810,
+            "y": 858.09221958381693
+          },
+          "nodeIndex": "BDDEFENSA",
+          "nodeLineageTag": "6e3cad8f-d1fa-4898-b8db-c9919ff945b8",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3094,
+            "y": 858.09221958381693
+          },
+          "nodeIndex": "BDDELANTERA",
+          "nodeLineageTag": "054ad540-22cf-44f0-b49f-1e6dd86ed2e9",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3378,
+            "y": 858.09221958381693
+          },
+          "nodeIndex": "BDMEDIOCENTRO",
+          "nodeLineageTag": "5bd699ac-ab5f-408d-b060-5aaefcbeb277",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3662,
+            "y": 858.09221958381693
+          },
+          "nodeIndex": "BDPORTERIA",
+          "nodeLineageTag": "f8db6760-4dab-4413-9577-d5e2278e7580",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3936,
+            "y": 695.98839300963539
+          },
+          "nodeIndex": "FInal",
+          "nodeLineageTag": "b9673273-2cf2-410a-a854-7e6009a6b442",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 44.905697313103921,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

@@ -1,0 +1,3211 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.128.1380.0 (24.04)"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"DefensaRM\",\"DelanteraRM\",\"MediocentroRM\",\"DefensaBD\",\"DelanteraBD\",\"MediocentroBD\",\"ResumenDafensaRM\",\"Errores en ResumenDafensaRM\",\"RMDefensa1\",\"RMDelantera\",\"RMMediocentro2\",\"RMPorteria\",\"BDDEFENSA\",\"BDDELANTERA\",\"BDMEDIOCENTRO\",\"BDPORTERIA\",\"FInal\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "es-ES",
+    "cultures": [
+      {
+        "name": "es-ES",
+        "linguisticMetadata": {
+          "content": {
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "Errores en ResumenDafensaRM",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "Origen = ResumenDafensaRM,",
+          "  #\"Errores de coincidencia detectados\" = let",
+          "    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),",
+          "    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),",
+          "    fieldNames = Record.FieldNames(recordTypeFields),",
+          "    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),",
+          "    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = \"El tipo del valor no coincide con el tipo de la columna.\", Detail = v], fieldTypes{i}})",
+          "in",
+          "    Table.TransformColumns(Origen, pairs),",
+          "  #\"Índice agregado\" = Table.AddIndexColumn(#\"Errores de coincidencia detectados\", \"Número de fila\" ,1),",
+          "  #\"Conservar errores\" = Table.SelectRowsWithErrors(#\"Índice agregado\", {\"Estadisticas\", \"THIBAUT COURTOIS\", \"DANIEL CARVAJAL\", \"ANTONIO RÜDIGER\", \"NACHO\", \"FERLAND MENDY\"}),",
+          "  #\"Columnas reordenadas\" = Table.ReorderColumns(#\"Conservar errores\", {\"Número de fila\", \"Estadisticas\", \"THIBAUT COURTOIS\", \"DANIEL CARVAJAL\", \"ANTONIO RÜDIGER\", \"NACHO\", \"FERLAND MENDY\"})",
+          "in",
+          "    #\"Columnas reordenadas\""
+        ],
+        "kind": "m",
+        "lineageTag": "aac73614-99aa-4088-8a3d-c9976b09f598",
+        "queryGroup": "Errores en las consultas: 07/06/2024 10:28:45"
+      },
+      {
+        "name": "ResumenDafensaRM",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Estadisticas por jugador .xlsx\"), null, true),",
+          "    ResumenDafensaRM_Table = Origen{[Item=\"ResumenDafensaRM\",Kind=\"Table\"]}[Data],",
+          "    #\"Tipo cambiado\" = Table.TransformColumnTypes(ResumenDafensaRM_Table,{{\"Estadisticas\", type text}, {\"THIBAUT COURTOIS\", Int64.Type}, {\"DANIEL CARVAJAL\", Int64.Type}, {\"ANTONIO RÜDIGER\", Int64.Type}, {\"NACHO\", Int64.Type}, {\"FERLAND MENDY\", Int64.Type}})",
+          "in",
+          "    #\"Tipo cambiado\""
+        ],
+        "kind": "m",
+        "lineageTag": "cd567a0e-a2b2-4267-aca8-4aa8658e11ae"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "description": "Errores en las consultas cargadas en 07/06/2024 10:28:45.",
+        "folder": "Errores en las consultas: 07/06/2024 10:28:45"
+      }
+    ],
+    "relationships": [
+      {
+        "name": "AutoDetected_b0d9be82-061e-4a03-915c-16c4aec068db",
+        "fromColumn": "Duelos en el suelo (ganados)",
+        "fromTable": "DefensaRM",
+        "toColumn": "Duelos en el suelo (ganados)",
+        "toTable": "DelanteraRM"
+      },
+      {
+        "name": "AutoDetected_d61df355-48ff-45f9-8203-de8e0165559d",
+        "fromColumn": "Duelos en el suelo (ganados)",
+        "fromTable": "DefensaBD",
+        "toColumn": "Duelos en el suelo (ganados)",
+        "toTable": "DelanteraBD"
+      },
+      {
+        "name": "AutoDetected_f5f166e0-5445-4e00-8d28-b88d10a23b7c",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "DefensaRM",
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_d8b16415-4802-44b4-9a23-d9f8a06245c3",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "DelanteraRM",
+        "isActive": false,
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_9772307b-e1d0-42e0-9f08-f87c6f0d7313",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "MediocentroRM",
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_35c2abfe-b6bc-451f-9fee-8359f8f917f5",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "DefensaBD",
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_7343c1f0-5f88-46b2-a899-db9ee8abd54f",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "DelanteraBD",
+        "isActive": false,
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_01acfa21-321f-4f6d-87c3-58dc2d3bed4a",
+        "fromColumn": "Tiros a puerta",
+        "fromTable": "MediocentroBD",
+        "toColumn": "Tiros a puerta",
+        "toTable": "BDDELANTERA"
+      },
+      {
+        "name": "AutoDetected_56483d21-819f-4526-86bf-d358b8eab924",
+        "fromColumn": "Faltas recibidas",
+        "fromTable": "BDDELANTERA",
+        "toColumn": "Faltas recibidas",
+        "toTable": "RMPorteria"
+      }
+    ],
+    "sourceQueryCulture": "es-ES",
+    "tables": [
+      {
+        "name": "DateTableTemplate_e9187d6f-8f41-4adf-be01-95407f625170",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "716f157c-85c8-4ef8-9f7b-98c5d4988d65",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Año",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isHidden": true,
+            "lineageTag": "385d1f2b-a428-42de-984a-1cbe34f1f4b7",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "NroMes",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isHidden": true,
+            "lineageTag": "eb419f6f-898e-474e-bee8-25e1da91e30f",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Mes",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isHidden": true,
+            "lineageTag": "3167589c-aaa8-4ac2-9f23-2f2950fffc27",
+            "sortByColumn": "NroMes",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "NroTrimestre",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([NroMes] + 2) / 3)",
+            "isHidden": true,
+            "lineageTag": "7a33d2de-97dd-4f3d-ba76-b08be80ecd38",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Trimestre",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Trim. \" & [NroTrimestre]",
+            "isHidden": true,
+            "lineageTag": "f19a4e6f-c1e5-46c2-b1d1-e625e47d9f36",
+            "sortByColumn": "NroTrimestre",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Día",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isHidden": true,
+            "lineageTag": "137bafb4-963d-4aa3-a0a4-d441174bb1f3",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Jerarquía de fechas",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Año",
+                "column": "Año",
+                "lineageTag": "ef7185ba-e59f-4810-9fcb-d1eda55c2071",
+                "ordinal": 0
+              },
+              {
+                "name": "Trimestre",
+                "column": "Trimestre",
+                "lineageTag": "5df01067-652e-481a-a7a3-800f131465b7",
+                "ordinal": 1
+              },
+              {
+                "name": "Mes",
+                "column": "Mes",
+                "lineageTag": "886f28cf-eaf6-4009-92c0-e68b0c8ef785",
+                "ordinal": 2
+              },
+              {
+                "name": "Día",
+                "column": "Día",
+                "lineageTag": "829e1511-e8ff-444b-9366-987cf92bf4a3",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "c01e6f78-d93f-4f39-8efe-0c5dda980e88"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "68c42b55-a538-48dd-9cfb-6ca1dcd7c4af",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_e9187d6f-8f41-4adf-be01-95407f625170",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DefensaRM",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "e392caf3-89c5-405d-9980-de8df0c505cb",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f22239ad-4d0b-475b-a7f7-a612ca41f551",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fdb00294-32bb-4a05-a176-b334641e3703",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Entradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "25fd6dcc-0e8c-4d1a-8339-9bc8487d3dc3",
+            "sourceColumn": "Entradas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases precisos %",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "2086f4a9-5af3-4180-b64e-5b6b7c820054",
+            "sourceColumn": "Pases precisos %",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "274a3947-9b94-4410-ad11-dce2c02168c1",
+            "sourceColumn": "Duelos (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "bf8bcb09-78a8-41ee-89f8-8273d8af115e",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "72bcb1de-8d74-47d2-8f62-966ec185d784",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "730ec74a-0a92-49c0-9f9c-3a147c4ba449",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "da58eda4-4acf-4618-a47d-96439cebd726",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ocasiones de gol",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "0b6f1bfa-86ae-4007-944c-f352e2f462b1",
+            "sourceColumn": "Ocasiones de gol",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "09a51a91-22f4-45f7-80a4-760823846471",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c58fa2c2-fc8d-4c1c-91b3-f9076ac9f132",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "73c8632e-fde5-4c02-b91e-973039e1e0ca",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Toques",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "deef427e-f6d5-4155-9c81-c23aff8546f7",
+            "sourceColumn": "Toques",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases Completados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7a7103cd-8553-4b49-996c-6802e9be76a9",
+            "sourceColumn": "Pases Completados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f6d99e40-e53f-42b8-8a6a-7cad018c3ea1",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8642617a-92be-40ca-826f-45c4feec7e30",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "df6ea271-d3f0-4e05-b4a1-e13df6cb53fa",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "73024c76-51bf-4501-9475-bcc3c4982372",
+        "partitions": [
+          {
+            "name": "DefensaRM",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo RM Oficial Tabla.xlsx\"), null, true),",
+                "    DefensaRM_Table = Origen{[Item=\"DefensaRM\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(DefensaRM_Table,{{\"Columna 1\", type text}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"Entradas\", Int64.Type}, {\"Pases precisos %\", Int64.Type}, {\"Duelos (ganados)\", Int64.Type}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Ocasiones de gol\", Int64.Type}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"Toques\", Int64.Type}, {\"Pases Completados\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DelanteraRM",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "36c765d3-211b-40b4-9bef-1dbbd207ea99",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "465aff8f-7bb1-458a-b87a-2fd80be11fa3",
+            "sourceColumn": "Goles",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f58e88b9-876c-4b77-8b2d-88d322bc9cd3",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Entradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "04a925f4-55a7-4a53-bd61-d84fe65d8bed",
+            "sourceColumn": "Entradas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases precisos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "28106811-c9a2-4041-a7da-28fbde89fb7c",
+            "sourceColumn": "Pases precisos",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "946ebfcf-1a83-49d6-8080-156a440c85f4",
+            "sourceColumn": "Duelos (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "e146efe4-38e9-40a0-ba13-9e6cdb929042",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "48db8b37-f378-44f5-9649-dc4d7dbe0bc0",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "ec38bc05-d229-40f4-89ea-a9604524cb26",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "58ad8dc7-fa1a-4072-87e8-b3441d3e0943",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Perdidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "72b1ddba-01b4-445a-a863-31550da30a94",
+            "sourceColumn": "Perdidas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "78c40a83-35ff-4854-9954-979298637b3f",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "62dd73a9-c7a7-432a-a0cf-145f128c5315",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "703876b3-676b-4b53-b381-87b833b8580c",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Toques",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "af8f375e-1111-4acf-ab0e-d44ce0e7cc61",
+            "sourceColumn": "Toques",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "db3627da-9489-4aa8-ad0b-d6d856b04ca5",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8e1070fb-6dbd-4b8d-91ad-24f4e1ca762e",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "0e11fd7e-1711-43a1-9793-cea449eb0f31",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "b0b1d334-1f07-45da-a66e-4b46cfecbe1a",
+        "partitions": [
+          {
+            "name": "DelanteraRM",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo RM Oficial Tabla.xlsx\"), null, true),",
+                "    DelanteraRM_Table = Origen{[Item=\"DelanteraRM\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(DelanteraRM_Table,{{\"Columna 1\", type text}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"Entradas\", Int64.Type}, {\"Pases precisos\", type number}, {\"Duelos (ganados)\", Int64.Type}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Perdidas\", Int64.Type}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"Toques\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "MediocentroRM",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "afb3ff81-4a9e-4e29-81a3-b5540d7dcd48",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "186aadca-8823-4878-afa6-36546492473a",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5f40715b-c421-49c2-b5ed-9b3aae197358",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases precisos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "4f53e5c0-e912-42dc-8f52-d0ba15ad3f13",
+            "sourceColumn": "Pases precisos",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a2e2e0b6-36c2-4b6a-b058-aace3bd8ef72",
+            "sourceColumn": "Faltas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "217dffb3-0385-4bc1-9f17-7933a01db92d",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "01406510-ef74-4418-9c36-b4531929abeb",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "51ca5345-6396-4724-ab18-e3472a921e26",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c2780e1e-2665-45bd-ba22-ef140bd0bc75",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "perdidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5e33c418-fde6-40b9-be60-e80a23b0f700",
+            "sourceColumn": "perdidas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "20bd8606-982f-47e7-824d-8a92d901b87f",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "4243f98a-0c0f-472f-8239-13909dc04487",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "47f2105f-d2b9-4968-aa19-75286e3d3879",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "pases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fa3c3f0a-0eaa-4e91-a0ef-44ddb3596899",
+            "sourceColumn": "pases",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "981de076-38ce-46c9-ac6b-de85c4f8ed16",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "4223c97f-71a3-412e-bbe6-8ffbcd2166bb",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a4cb78e5-a535-477e-a7b2-96f5df14dd14",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "233bc2b6-6432-4067-9b17-c7972e69e17e",
+        "partitions": [
+          {
+            "name": "MediocentroRM",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo RM Oficial Tabla.xlsx\"), null, true),",
+                "    MediocentroRM_Table = Origen{[Item=\"MediocentroRM\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(MediocentroRM_Table,{{\"Columna 1\", type text}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"Pases precisos\", type number}, {\"Faltas\", Int64.Type}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"perdidas\", Int64.Type}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"pases\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DefensaBD",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1164e892-462f-4895-ac78-8340d560fcac",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Paradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a8d36897-fe38-4de1-90eb-f5abf0515153",
+            "sourceColumn": "Paradas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "188928ee-e459-4a8a-9854-22a4f292f9b7",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "ee398700-1a75-40a2-83ae-a4739687c8bd",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "faltas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "42d2c75a-7708-44b5-80e5-4ea93e64d5ad",
+            "sourceColumn": "faltas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases precisos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "ee300b27-4a55-4d36-8a54-4e2d9365e04a",
+            "sourceColumn": "Pases precisos",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "65785448-04d0-43ba-9190-6221a91dfdc6",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "da97a0dd-0864-44df-9955-2bcf834a0627",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "92f87e11-104b-425c-99d7-2a68094bad98",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3ecaa8f5-5b1d-4385-813e-a6ffd84f0ce5",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ocasiones de gol",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "cfd2f660-22ab-4e22-8bef-30d8a9d3a756",
+            "sourceColumn": "Ocasiones de gol",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7437fc8c-9ee0-4d26-8011-d91191aedc17",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "09b2f542-3aa9-4fdf-9c3d-4b33a56711ae",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f1ef349f-9358-4857-88df-1d67432fb02d",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Toques",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5079a620-0215-4d16-8748-6b7df6103c33",
+            "sourceColumn": "Toques",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "61777957-ec19-4f4f-ba2f-00e691ff8e6d",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f097da1c-e30c-45b6-96e4-c33f3496ae49",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7f7d068c-1827-4683-9d12-14349fdccaaf",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "fdf8f9c1-ca0d-4fec-aea2-658ecd937a27",
+        "partitions": [
+          {
+            "name": "DefensaBD",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo BD Oficial Tabla.xlsx\"), null, true),",
+                "    DefensaBD_Table = Origen{[Item=\"DefensaBD\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(DefensaBD_Table,{{\"Columna 1\", type text}, {\"Paradas\", Int64.Type}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"faltas\", Int64.Type}, {\"Pases precisos\", type number}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Ocasiones de gol\", Int64.Type}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"Toques\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DelanteraBD",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "006d9e47-1259-42f5-8462-7bfae2d89551",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "05bbc937-c539-42cd-836d-6574f7faf25d",
+            "sourceColumn": "Goles",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "84251340-2aa0-48cc-b044-634153735acd",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Entradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "14fd5590-54b6-4cc9-878f-3f96eb4f0dde",
+            "sourceColumn": "Entradas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "ef6b113e-fb3c-413f-864c-8ccd4d3355aa",
+            "sourceColumn": "Pases",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases precisos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7a4d17cc-55f8-429a-8bff-19c88020e384",
+            "sourceColumn": "Pases precisos",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases precisos%",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "6bf7fb36-fb0c-4527-b6da-cb5ef318672b",
+            "sourceColumn": "Pases precisos%",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "ebb344cf-f2ea-4139-9718-787d57ea60a3",
+            "sourceColumn": "Duelos",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "272b9fde-ae79-4030-afe7-857509e3aba0",
+            "sourceColumn": "Duelos (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos en el suelo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "588628b5-2630-4c97-8ee4-942ce4329d40",
+            "sourceColumn": "Duelos en el suelo",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "98c73bf2-1bf8-4de2-8423-9273cbbf80eb",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos aéreos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "42718adf-ea12-4419-a340-03577a7902c1",
+            "sourceColumn": "Duelos aéreos",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b0f3c4ac-d62e-49c9-a5e8-5c42ba9a337b",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Faltas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "e81d02b5-6156-4a98-b961-389ab1ea1ff0",
+            "sourceColumn": "Faltas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Faltas Recibidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "43c5a89b-b902-455c-b521-612d57d9b060",
+            "sourceColumn": "Faltas Recibidas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Posesión perdida",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "494445a9-642d-41d3-8261-8cb41e607c2d",
+            "sourceColumn": "Posesión perdida",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7dfa2d84-d503-4d9d-b03c-b585b1407b0c",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c0b48756-8a65-4cee-8a11-3ec170a81f43",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "9940856d-a0ae-42b3-9471-759f6df3f6d6",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "74381f34-2445-491e-86f7-8890108a90c9",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Regates",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8baac865-87f2-4284-b5fb-c322d0836e49",
+            "sourceColumn": "Regates",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "352d2e36-3542-4e4c-8b78-2c0162ab4266",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Toques",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fe389cfa-afb4-44ef-b51e-987a0449187e",
+            "sourceColumn": "Toques",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "785fb98b-9530-412b-8eba-dea378f1aa2d",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Centros",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8779c5df-748a-449c-b8fa-8ed2450d527c",
+            "sourceColumn": "Centros",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b22e5126-82a3-46ee-b17b-3766958975cc",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Balones en largo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "61051db4-c365-4700-bada-c959d6d20099",
+            "sourceColumn": "Balones en largo",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "882c34d7-466c-49b6-8162-92a32ce43bf9",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "15c6d577-87dc-4411-a93d-b42ffe7668ca",
+        "partitions": [
+          {
+            "name": "DelanteraBD",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo BD Oficial Tabla.xlsx\"), null, true),",
+                "    DelanteraBD_Table = Origen{[Item=\"DelanteraBD\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(DelanteraBD_Table,{{\"Columna 1\", type text}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"Entradas\", Int64.Type}, {\"Pases\", Int64.Type}, {\"Pases precisos\", Int64.Type}, {\"Pases precisos%\", type number}, {\"Duelos\", Int64.Type}, {\"Duelos (ganados)\", Int64.Type}, {\"Duelos en el suelo\", Int64.Type}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Faltas\", Int64.Type}, {\"Faltas Recibidas\", Int64.Type}, {\"Posesión perdida\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"Toques\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros\", Int64.Type}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "MediocentroBD",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugador",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "7848cd6e-ea73-4ccc-9e67-949add45c382",
+            "sourceColumn": "Jugador",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fd04e325-3cc7-4176-af39-9e87d2a0c68c",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Asistencias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "2ea86cd2-232b-4d17-9cfb-b265c6cbc55d",
+            "sourceColumn": "Asistencias",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Entradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8872fca0-592a-46b6-aa91-989082735e9a",
+            "sourceColumn": "Entradas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases totales",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b2d1f57d-655b-43fd-93ac-fb35dbf5f50c",
+            "sourceColumn": "Pases totales",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases precisos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "6308cd01-d674-45b2-9885-9c131259e2b4",
+            "sourceColumn": "Pases precisos",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos en el suelo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a5ca3dd1-8546-4082-95d0-ccdfd38ce8ff",
+            "sourceColumn": "Duelos en el suelo",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos en el suelo (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "2a260923-672e-4742-b3b9-329d614e9865",
+            "sourceColumn": "Duelos en el suelo (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos aéreos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fa51ce1d-0df2-477c-93a7-5f044165567e",
+            "sourceColumn": "Duelos aéreos",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Duelos aéreos (ganados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a57821a7-73e7-4ec7-88d1-dbe3005a589b",
+            "sourceColumn": "Duelos aéreos (ganados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas (Realizadas)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a4843f07-12e2-4dc4-b75c-9366ea047c95",
+            "sourceColumn": "Faltas (Realizadas)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas (Recibidas)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "0095ac33-5c94-4cec-a254-96b2d417a12c",
+            "sourceColumn": "Faltas (Recibidas)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Minutos jugados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "15eee714-1536-42ab-bacb-4deb117ae657",
+            "sourceColumn": "Minutos jugados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "04adcfb9-e703-4660-bcb5-0f496d6fecd3",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ocasiones de gol",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "e2b969c6-b1ab-4608-aac9-35c1e1b126b5",
+            "sourceColumn": "Ocasiones de gol",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "13ae6575-91e6-4fd2-b65e-dd7a521c4aa5",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Disparos bloqueados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "39a16d1c-b77e-41fd-91be-b8b83618ba36",
+            "sourceColumn": "Disparos bloqueados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Regates",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8ee3d17e-8c95-43d2-a241-67db8597c162",
+            "sourceColumn": "Regates",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Regates (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "785aa8a2-161e-4452-8cb0-1b53d7815d19",
+            "sourceColumn": "Regates (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Toques",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b48f1b19-7418-402b-9059-ba5283fa2190",
+            "sourceColumn": "Toques",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases clave",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "72d26566-e71a-4f32-a1ef-fd598b32e43e",
+            "sourceColumn": "Pases clave",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a3211009-a0b3-4fd7-8d18-66d7337e1e1d",
+            "sourceColumn": "Centros",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Centros (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "cf4c4e72-876f-4ce1-ae82-ca9014a043c2",
+            "sourceColumn": "Centros (completados)",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Balones en largo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f2212588-a110-40cc-a58f-7b210ec7adb9",
+            "sourceColumn": "Balones en largo",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Balones en largo (completados)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "30825852-4789-4b98-8b78-6cf8446c505c",
+            "sourceColumn": "Balones en largo (completados)",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "3ce5cfc2-c110-4a97-95e3-a2934bfa27d5",
+        "partitions": [
+          {
+            "name": "MediocentroBD",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Modelo BD Oficial Tabla.xlsx\"), null, true),",
+                "    MediocentroBD_Table = Origen{[Item=\"MediocentroBD\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(MediocentroBD_Table,{{\"Columna 1\", type text}, {\"Goles\", Int64.Type}, {\"Asistencias\", Int64.Type}, {\"Entradas\", Int64.Type}, {\"Pases totales\", Int64.Type}, {\"Pases precisos\", Int64.Type}, {\"Duelos en el suelo\", Int64.Type}, {\"Duelos en el suelo (ganados)\", Int64.Type}, {\"Duelos aéreos\", Int64.Type}, {\"Duelos aéreos (ganados)\", Int64.Type}, {\"Faltas (Realizadas)\", Int64.Type}, {\"Faltas (Recibidas)\", Int64.Type}, {\"Minutos jugados\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Ocasiones de gol\", type any}, {\"Tiros fuera\", Int64.Type}, {\"Disparos bloqueados\", Int64.Type}, {\"Regates\", Int64.Type}, {\"Regates (completados)\", Int64.Type}, {\"Toques\", Int64.Type}, {\"Pases clave\", Int64.Type}, {\"Centros\", type any}, {\"Centros (completados)\", Int64.Type}, {\"Balones en largo\", Int64.Type}, {\"Balones en largo (completados)\", Int64.Type}}),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Tipo cambiado\",{{\"Columna 1\", \"Jugador\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "RMDefensa1",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Defensa",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d9e90d4e-6202-43bc-b036-29f1eead4b52",
+            "sourceColumn": "Defensa",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Recuperaciones",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "12321d71-9219-4189-ab70-00078d819c04",
+            "sourceColumn": "Recuperaciones",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Pases cortados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8f25e4c3-1592-4aff-bf1f-8dfa97c1879e",
+            "sourceColumn": "Pases cortados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Entradas ganadas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1b41bb2d-2885-4ba5-85f8-600a8ede6fdc",
+            "sourceColumn": "Entradas ganadas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Faltas cometidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "43b4be06-8e57-4117-9957-a9c9918e0e0b",
+            "sourceColumn": "Faltas cometidas",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "fec995c5-befd-4540-ab2c-50a2082c41c9",
+        "partitions": [
+          {
+            "name": "RMDefensa1",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Real Madrid_Ind.xlsx\"), null, true),",
+                "    RMDefensa_Table = Origen{[Item=\"RMDefensa\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    RMDefensa_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "RMDelantera",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Delantero",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4d38ed51-6398-4d7b-bb21-8b4466816550",
+            "sourceColumn": "Delantero",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3c1a27bc-4e34-4d0e-b965-4251e31f45aa",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "af75c37e-e927-43c0-b826-884177f26245",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas recibidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "1ad5946f-c068-49bb-b906-2da9440e8512",
+            "sourceColumn": "Faltas recibidas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "e9d00b1e-028e-4ee9-85a6-8f3dde471a08",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "f891079d-d039-4554-9acd-3c6ffbdfa7f6",
+        "partitions": [
+          {
+            "name": "RMDelantera",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Real Madrid_Ind.xlsx\"), null, true),",
+                "    RMDelantera_Table = Origen{[Item=\"RMDelantera\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(RMDelantera_Table,{{\"Delantero\", type text}, {\"Goles\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Faltas recibidas\", Int64.Type}, {\"Tiros fuera\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "RMMediocentro2",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Mediocentro",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bce573a8-f365-476d-8d72-4ada00e8be9b",
+            "sourceColumn": "Mediocentro",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Asistencias de gol",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "bbc2a71f-87cf-4bf3-ad7b-146754cb09b1",
+            "sourceColumn": "Asistencias de gol",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pérdidas de balón",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "2c1ab41a-86b9-4ede-85cd-6f85bfca6108",
+            "sourceColumn": "Pérdidas de balón",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros y corners",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fdb0f13c-c092-4871-9c9d-34a60e94b6c4",
+            "sourceColumn": "Centros y corners",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "96af4ddd-07a6-4c1e-aa2f-7428bc9baf0d",
+            "sourceColumn": "Pases",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "6ed547d5-28ba-477f-a9d2-bca54a1815a3",
+        "partitions": [
+          {
+            "name": "RMMediocentro2",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Real Madrid_Ind.xlsx\"), null, true),",
+                "    RMMediocentro_Table = Origen{[Item=\"RMMediocentro\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(RMMediocentro_Table,{{\"Mediocentro\", type text}, {\"Asistencias de gol\", Int64.Type}, {\"Pérdidas de balón\", Int64.Type}, {\"Centros y corners\", Int64.Type}, {\"Pases\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "RMPorteria",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Porteros",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8d5c48cc-167b-4664-9698-60c74cf22d2b",
+            "sourceColumn": "Porteros",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles encajados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a671c602-b9cb-46c0-898b-e84c6b913afd",
+            "sourceColumn": "Goles encajados",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Paradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f0d110f5-7222-4eae-bd7f-ebd5eac8b600",
+            "sourceColumn": "Paradas",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Partidos con la portería a cero",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "d76a2e78-f92b-43ad-bd81-db951347130b",
+            "sourceColumn": "Partidos con la portería a cero",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Faltas recibidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c39a394f-0961-4b0d-8750-3be798d38c4a",
+            "sourceColumn": "Faltas recibidas",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "6d3b1e60-7604-419c-8832-7594c16135c0",
+        "partitions": [
+          {
+            "name": "RMPorteria",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Real Madrid_Ind.xlsx\"), null, true),",
+                "    RMPorteria_Table = Origen{[Item=\"RMPorteria\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(RMPorteria_Table,{{\"Porteros\", type text}, {\"Goles encajados\", Int64.Type}, {\"Paradas\", Int64.Type}, {\"Partidos con la portería a cero#(tab)\", Int64.Type}, {\"Faltas recibidas#(tab)\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BDDEFENSA",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugadores",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b73121f7-68b3-47cb-b84f-207bfe283409",
+            "sourceColumn": "Jugadores",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Recuperaciones",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "49bc6285-c9f2-45f9-ba91-0c188af33505",
+            "sourceColumn": "Recuperaciones",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases cortados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "6e66240e-96bb-4f65-9e65-6d06a1a592f5",
+            "sourceColumn": "Pases cortados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Entradas ganadas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "a20016f0-c626-4e2a-b9a2-61e6f22f07df",
+            "sourceColumn": "Entradas ganadas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas cometidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3d4444f6-5466-413b-8fc9-14f7ab09c22d",
+            "sourceColumn": "Faltas cometidas",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "6e3cad8f-d1fa-4898-b8db-c9919ff945b8",
+        "partitions": [
+          {
+            "name": "BDDEFENSA",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = GoogleSheets.Contents(\"https://docs.google.com/spreadsheets/d/1EIcyNFfCtX8Zq9414XsQiFy9EwsTtMr8I8PaJQJ_m7c/edit#gid=0\"),",
+                "    BDDEFENSA_Table = Origen{[name=\"BDDEFENSA\",ItemKind=\"Table\"]}[Data],",
+                "    #\"Encabezados promovidos\" = Table.PromoteHeaders(BDDEFENSA_Table, [PromoteAllScalars=true]),",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Encabezados promovidos\",{{\"Jugadores\", type text}, {\"Recuperaciones\", Int64.Type}, {\"Pases cortados\", Int64.Type}, {\"Entradas ganadas\", Int64.Type}, {\"Faltas cometidas\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BDDELANTERA",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugadores",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "dcf51518-4e75-48e2-8cf9-54b932cdcf17",
+            "sourceColumn": "Jugadores",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "387f7eff-46c8-4244-9797-a7353d23ef6a",
+            "sourceColumn": "Goles",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros a puerta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f6a44393-07cf-49e1-beca-7da36d0d6f41",
+            "sourceColumn": "Tiros a puerta",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas recibidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c8935acf-e395-4368-868d-d81dc223e2d1",
+            "sourceColumn": "Faltas recibidas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Tiros fuera",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "83dd784b-2116-49a8-876a-22b395ca4fbc",
+            "sourceColumn": "Tiros fuera",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "054ad540-22cf-44f0-b49f-1e6dd86ed2e9",
+        "measures": [
+          {
+            "name": "goles2",
+            "expression": "COALESCE(SUM(BDDELANTERA[Goles]),0)",
+            "formatString": "0",
+            "lineageTag": "cfce6727-34e7-4123-8080-938b45a4d2e9"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "BDDELANTERA",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = GoogleSheets.Contents(\"https://docs.google.com/spreadsheets/d/1EIcyNFfCtX8Zq9414XsQiFy9EwsTtMr8I8PaJQJ_m7c/edit#gid=0\"),",
+                "    BDDELANTERA_Table = Origen{[name=\"BDDELANTERA\",ItemKind=\"Table\"]}[Data],",
+                "    #\"Encabezados promovidos\" = Table.PromoteHeaders(BDDELANTERA_Table, [PromoteAllScalars=true]),",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Encabezados promovidos\",{{\"Jugadores\", type text}, {\"Goles\", Int64.Type}, {\"Tiros a puerta\", Int64.Type}, {\"Faltas recibidas\", Int64.Type}, {\"Tiros fuera\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BDMEDIOCENTRO",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugadores",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "10047a90-edaa-4ee4-9855-298124aca57a",
+            "sourceColumn": "Jugadores",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Asistencias de gol",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "e95f89f3-18f4-48fc-9d3d-7ee0976ebe28",
+            "sourceColumn": "Asistencias de gol",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pérdidas de balón",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "07f438e2-d950-4397-b86b-7c411acecc89",
+            "sourceColumn": "Pérdidas de balón",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Centros y corners",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c5fcc935-478b-4bd6-ac6f-21a337330e68",
+            "sourceColumn": "Centros y corners",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "102a7ffd-cc93-4216-8a1f-0acbb79f9066",
+            "sourceColumn": "Pases",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "5bd699ac-ab5f-408d-b060-5aaefcbeb277",
+        "partitions": [
+          {
+            "name": "BDMEDIOCENTRO",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = GoogleSheets.Contents(\"https://docs.google.com/spreadsheets/d/1EIcyNFfCtX8Zq9414XsQiFy9EwsTtMr8I8PaJQJ_m7c/edit#gid=0\"),",
+                "    BDMEDIOCENTRO_Table = Origen{[name=\"BDMEDIOCENTRO\",ItemKind=\"Table\"]}[Data],",
+                "    #\"Encabezados promovidos\" = Table.PromoteHeaders(BDMEDIOCENTRO_Table, [PromoteAllScalars=true]),",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Encabezados promovidos\",{{\"Jugadores\", type text}, {\"Asistencias de gol\", Int64.Type}, {\"Pérdidas de balón\", Int64.Type}, {\"Centros y corners\", Int64.Type}, {\"Pases\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "BDPORTERIA",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Jugadores",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "eadcc383-4f23-490c-9885-34caddc55d0f",
+            "sourceColumn": "Jugadores",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Goles encajados",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "b847ac8c-3d71-4927-b0d5-a4e4c587b24b",
+            "sourceColumn": "Goles encajados",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Paradas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "92f7ee26-9a2e-4ff8-bf89-395198962e33",
+            "sourceColumn": "Paradas",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Partidos con la portería a cero",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "7d0ff5c4-644c-4e14-bc6a-e4ab651dcaae",
+            "sourceColumn": "Partidos con la portería a cero",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Faltas recibidas",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5ffd6025-bc82-4564-a905-b9423cec7e81",
+            "sourceColumn": "Faltas recibidas",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "f8db6760-4dab-4413-9577-d5e2278e7580",
+        "partitions": [
+          {
+            "name": "BDPORTERIA",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = GoogleSheets.Contents(\"https://docs.google.com/spreadsheets/d/1EIcyNFfCtX8Zq9414XsQiFy9EwsTtMr8I8PaJQJ_m7c/edit#gid=0\"),",
+                "    BDPORTERIA_Table = Origen{[name=\"BDPORTERIA\",ItemKind=\"Table\"]}[Data],",
+                "    #\"Encabezados promovidos\" = Table.PromoteHeaders(BDPORTERIA_Table, [PromoteAllScalars=true]),",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Encabezados promovidos\",{{\"Jugadores\", type text}, {\"Goles encajados\", Int64.Type}, {\"Paradas\", Int64.Type}, {\"Partidos con la portería a cero\", Int64.Type}, {\"Faltas recibidas\", Int64.Type}})",
+                "in",
+                "    #\"Tipo cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "FInal",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Datos",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "70422148-3aec-4f10-b443-77657fd6e9c5",
+            "sourceColumn": "Datos",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Dormund",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "888bfeab-6100-4bdd-b3b3-69cc546daf00",
+            "sourceColumn": "Dormund",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Real Madrid1",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "212472a4-00be-454c-bf2b-fff6bb6660b2",
+            "sourceColumn": "Real Madrid1",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "b9673273-2cf2-410a-a854-7e6009a6b442",
+        "partitions": [
+          {
+            "name": "FInal",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Excel.Workbook(File.Contents(\"C:\\Users\\msarm\\Desktop\\Power BI\\unicorn final champions\\Hoja de cálculo sin título.xlsx\"), null, true),",
+                "    FInal_Table = Origen{[Item=\"FInal\",Kind=\"Table\"]}[Data],",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(FInal_Table,{{\"Dortmund\", type text}, {\"Real Madrid\", Int64.Type}, {\"Real Madrid1\", Int64.Type}}),",
+                "    #\"Filas en blanco eliminadas\" = Table.SelectRows(#\"Tipo cambiado\", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {\"\", null}))),",
+                "    #\"Columnas con nombre cambiado\" = Table.RenameColumns(#\"Filas en blanco eliminadas\",{{\"Dortmund\", \"Datos\"}, {\"Real Madrid\", \"Dormund\"}})",
+                "in",
+                "    #\"Columnas con nombre cambiado\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
