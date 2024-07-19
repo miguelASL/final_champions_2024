@@ -1,4 +1,4 @@
-# Análisis de Datos de la Final de la Champions 2024
+# ⚽ Análisis de Datos de la Final de la Champions 2024 ⚽
 ![Portada](Portada.jpg)
 
 ## Descripción
@@ -35,19 +35,19 @@ python analyze_data.py
 ## Contribuciones
 ¡Las contribuciones son bienvenidas! Por favor, sigue los siguientes pasos:
 
-- Haz un fork del proyecto y crea una nueva rama.
+- **Haz un fork del proyecto y crea una nueva rama**.
 ```
 git checkout -b feature/nueva-funcionalidad
 ```
-- Realiza tus cambios y haz commit.
+- **Realiza tus cambios y haz commit**.
 ```
 git commit -am 'Agrega nueva funcionalidad'
 ```
-- Sube los cambios.
+- **Sube los cambios**.
 ```
 git push origin feature/nueva-funcionalidad
 ```
-- Abre un Pull Request.
+- **Abre un Pull Request**.
 
 ## Licencia
 
