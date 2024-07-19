@@ -1,35 +1,19 @@
-# Informe de Análisis de Datos
+# Análisis de Datos de la Final de la Champions 2024
 
-Este proyecto analiza los datos de mediocampistas utilizando pandas, seaborn y matplotlib.
+## Descripción
+
+Este proyecto se centra en el análisis detallado de la final de la champions 2024 entre el **Borussia Dormund** y el **Real Madrid**.
 
 ## Requisitos
 
 - Python 3.x
 - virtualenv
 
-## Instalación
+## Tabla de Contenidos
 
-1. Clona este repositorio.
-2. Crea un entorno virtual:
-    ```sh
-    virtualenv venv
-    ```
-3. Activa el entorno virtual:
-    - En Windows:
-        ```sh
-        venv\Scripts\activate
-        ```
-    - En macOS/Linux:
-        ```sh
-        source venv/bin/activate
-        ```
-4. Instala las dependencias:
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-## Uso
-
-Ejecuta el script `analyze_data.py` para generar el informe:
-```sh
-python analyze_data.py
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Contribuciones](#contribuciones)
+- [Licencia](#licencia)
+- [Contacto](#contacto)
