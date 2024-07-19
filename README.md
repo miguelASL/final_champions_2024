@@ -15,18 +15,19 @@ Este proyecto se centra en el análisis detallado de la final de la champions 20
 ## Instalación
 Para instalar y configurar el entorno del proyecto, sigue estos pasos:
 
-1. Clona el repositorio:
-   ```
-   git clone https://github.com/miguelASL/final_champions_2024.git
-2. Navega al directorio del proyecto:
+**1.** **Clona el repositorio**:
+```
+git clone https://github.com/miguelASL/final_champions_2024.git
+```
+**2.** **Navega al directorio del proyecto**:
 ```
 cd final_champions_2024
 ```
-3. Instala las dependencias:
+**3.** **Instala las dependencias**:
 ```
 pip install -r requirements.txt
 ```
-4. Ejecucion del codigo:
+**4.** **Ejecucion del codigo**:
 ```
 python analyze_data.py
 ```
