@@ -1,4 +1,5 @@
 # Análisis de Datos de la Final de la Champions 2024
+![Portada](Portada.jpg)
 
 ## Descripción
 
@@ -7,8 +8,6 @@ Este proyecto se centra en el análisis detallado de la final de la champions 20
 ## Tabla de Contenidos
 
 - [Instalación](#instalación)
-- [Uso](#uso)
-- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Contribuciones](#contribuciones)
 - [Licencia](#licencia)
 - [Contacto](#contacto)
@@ -26,6 +25,10 @@ cd final_champions_2024
 3. Instala las dependencias:
 ```
 pip install -r requirements.txt
+```
+4. Ejecucion del codigo:
+```
+python analyze_data.py
 ```
 
 ## Contribuciones
